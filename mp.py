@@ -3,6 +3,7 @@ import sys
 from urllib.request import urlretrieve
 import zipfile
 import pandas as pd
+import qgrid
 
 def make_tmp(tmp='tmp'):
     if not os.path.exists(tmp):
@@ -33,11 +34,14 @@ def get_codes(df, pattern):
             aux = pd.np.append(aux, a)
     return pd.np.unique(aux)
 
+def get_result(df, pattern):
+    return df[df.rbiGoodAndService.isin(get_codes(df, pattern))]
+
 def print_codes(df, pattern):
     pd.np.savetxt(sys.stdout, get_codes(df, pattern), '%.0f')
 
-def get_result(df, pattern):
-    return df[df.rbiGoodAndService.isin(get_codes(df, pattern))]
+def print_result(df, pattern):
+    qgrid.show_grid(get_result(df, pattern))
 
 def main():
     tempdir = 'tmp'
