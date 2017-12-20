@@ -32,6 +32,9 @@ def get_codes(df, pattern):
             aux = pd.np.append(aux, a)
     return pd.np.unique(aux)
 
+def get_result(df, pattern):
+    return df[df.rbiGoodAndService.isin(get_codes(df, pattern))]
+
 def main():
     tempdir = 'tmp'
     make_tmp(tempdir)
