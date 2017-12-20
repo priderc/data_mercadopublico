@@ -1,4 +1,5 @@
 import os
+import sys
 from urllib.request import urlretrieve
 import zipfile
 import pandas as pd
@@ -31,6 +32,9 @@ def get_codes(df, pattern):
             a = df[df[x].str.contains(p, case=False)].rbiGoodAndService.unique()
             aux = pd.np.append(aux, a)
     return pd.np.unique(aux)
+
+def print_codes(df, pattern):
+    pd.np.savetxt(sys.stdout, get_codes(df, pattern), '%.0f')
 
 def get_result(df, pattern):
     return df[df.rbiGoodAndService.isin(get_codes(df, pattern))]
