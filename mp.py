@@ -1,28 +1,33 @@
 import os
 import sys
-from urllib.request import urlretrieve
 import zipfile
+from urllib.request import urlretrieve
 import pandas as pd
 import qgrid
 
-def make_tmp(tmp='tmp'):
-    if not os.path.exists(tmp):
-        os.mkdir(tmp)
+def make_tmp(tempdir='tmp'):
+    if not os.path.exists(tempdir):
+        os.mkdir(tempdir)
 
-def download(filename):
+def download(tempdir='tmp', name='filename.zip'):
+    filename = os.path.join(tempdir, name)
     url = 'http://www.mercadopublico.cl/Portal/att.ashx?id=5'
     urlretrieve(url, filename)
 
-def extractfiles(filename, tempdir):
+def extractfiles(tempdir='tmp', name='filename.zip'):
+    filename = os.path.join(tempdir, name)
     zip_ref = zipfile.ZipFile(filename, 'r')
     zip_ref.extractall(tempdir)
     zip_ref.close()
 
-def get_data(tempdir):
-    name = 'Licitacion_Publicada.csv'
+def get_data(tempdir='tmp', name='Licitacion_Publicada.csv'):
     filename = os.path.join(tempdir, name)
     aux = pd.read_csv(filename, skiprows=3)
     return aux
+
+def load_data():
+    main()
+    return get_data()
 
 def get_codes(df, pattern):
     aux = pd.np.array([])
@@ -44,13 +49,10 @@ def print_result(df, pattern):
     return qgrid.show_grid(get_result(df, pattern), grid_options={'forceFitColumns': False})
 
 def main():
-    tempdir = 'tmp'
-    make_tmp(tempdir)
-    filename = os.path.join(tempdir, 'filename.zip')
-    download(filename)
-    extractfiles(filename, tempdir)
+    make_tmp()
+    download()
+    extractfiles()
 
 
 if __name__ == '__main__':
     main()
-
