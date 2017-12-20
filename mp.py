@@ -1,5 +1,5 @@
 import os
-import urllib
+from urllib.request import urlretrieve
 import zipfile
 import pandas as pd
 
@@ -9,7 +9,7 @@ def make_tmp(tmp='tmp'):
 
 def download(filename):
     url = 'http://www.mercadopublico.cl/Portal/att.ashx?id=5'
-    urllib.urlretrieve(url, filename)
+    urlretrieve(url, filename)
 
 def extractfiles(filename, tempdir):
     zip_ref = zipfile.ZipFile(filename, 'r')
