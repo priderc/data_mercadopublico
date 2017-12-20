@@ -41,7 +41,7 @@ def print_codes(df, pattern):
     pd.np.savetxt(sys.stdout, get_codes(df, pattern), '%.0f')
 
 def print_result(df, pattern):
-    qgrid.show_grid(get_result(df, pattern))
+    return qgrid.show_grid(get_result(df, pattern))
 
 def main():
     tempdir = 'tmp'
